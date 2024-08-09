@@ -3,22 +3,31 @@ import { useGetPokemonByIdOrNameQuery } from "../services/pokemon";
 
 const PokemonFilter: React.FC = () => {
   const [search, setSearch] = useState("");
-  const { data, error, isLoading } = useGetPokemonByIdOrNameQuery(search, {
-    skip: !search,
+  const [query, setQuery] = useState("");
+  const { data, error, isLoading } = useGetPokemonByIdOrNameQuery(query, {
+    skip: !query,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setQuery(search); // Trigger the query with the current search value
+  };
+
   return (
     <div>
-      <input
-        type="text"
-        placeholder="Enter Pokémon ID or Name"
-        value={search}
-        onChange={handleChange}
-      />
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Enter Pokémon ID or Name"
+          value={search}
+          onChange={handleChange}
+        />
+        <button type="submit">Search</button>
+      </form>
       {isLoading && <p>Loading...</p>}
       {error && <p>Error: {error.toString()}</p>}
       {data && (
