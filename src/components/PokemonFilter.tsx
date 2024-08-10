@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useGetPokemonByIdOrNameQuery } from "../services/pokemon";
 
@@ -6,7 +6,7 @@ type FormValues = {
   search: string;
 };
 
-const PokemonFilter: React.FC = () => {
+const PokemonFilter = () => {
   const { register, handleSubmit, watch } = useForm<FormValues>();
   const [query, setQuery] = useState("");
   const searchValue = watch("search", ""); // Watch the search input field
